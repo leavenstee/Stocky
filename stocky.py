@@ -2,6 +2,8 @@ from yahoo_finance import Share
 from pprint import pprint
 import json
 import time
+import numpy as np
+import pylab as pl
 
 
 f = open('stockData.txt', 'w')
@@ -69,20 +71,28 @@ def evalStocks(i):
         if count == 7:
             #print value['Date'] + " | " + value['Close'] + " \n"
             dates.insert(0, value['Date'])
-            values.insert(0, value['Close'])
+            values.insert(0, float(value['Close']))
             count = 0
         count = count + 1
-    printStocks(dates, values, sName)
+    pl.figure(1)
+    x = range(0, len(values))
+    pl.xticks(x, dates)
+    pl.plot(x,values,"g")
+
+    pl.show()
+
 
 
 def getStocks():
-    text = ['GE','CMG','YHOO']
+    text = ['GE']
+
     for i in text:
         print "STARTED " + i + " WAITING....."
         evalStocks(i)
         print "COMPLETED " + i + " WAITING....."
         time.sleep(30)
     print "DONE"
+
 
 if __name__ == "__main__":
     print "Cool"
