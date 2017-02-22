@@ -14,6 +14,8 @@ def printStocks(d,p,s):
     prev = 35 # For CMG!!
     pos = []
     neg = []
+    flatPos = []
+    flatNeg = []
     f.write("\n==========================================\n")
     f.write(s + "\n")
     f.write("==========================================\n")
@@ -29,6 +31,8 @@ def printStocks(d,p,s):
             neg.append(perc)
         # Pattern Check
         prev = money
+    pl.plot(range(0, len(pos)),pos,'r')
+    pl.plot(range(0, len(neg)),neg,'b')
     posAvg = sum(pos)/len(pos)
     negAvg = sum(neg)/len(neg)
     posAvgHalf = posAvg/2
@@ -49,14 +53,19 @@ def printStocks(d,p,s):
         prev = money
         f.write(str(d[x])+ " | " + str(money) + " | " + str(perc))
         if perc > posAvgHalf:
+            flatPos.append(perc)
             f.write("==== POSSIBLE SELL, GOOD GAIN ====")
             if perc > posAvg:
                 f.write("==== SELL JACKPOT GAIN ====")
         if perc < negAvgHalf:
+            flatNeg.append(perc)
             f.write("==== POSSIBLE BUY, GOOD LOSS ====")
             if perc < negAvg:
                 f.write("==== BUY JACKPOT DROP ====")
         f.write("\n");
+    pl.plot(range(0, len(flatPos)),flatPos,'g')
+    pl.plot(range(0, len(flatNeg)),flatNeg,'o')
+
 
 
     # Evaluate
@@ -74,14 +83,8 @@ def evalStocks(i):
             values.insert(0, float(value['Close']))
             count = 0
         count = count + 1
-    pl.figure(1)
-    x = range(0, len(values))
-    pl.xticks(x, dates)
-    pl.plot(x,values,"g")
-
+    printStocks(dates,values,sName)
     pl.show()
-
-
 
 def getStocks():
     text = ['GE']
