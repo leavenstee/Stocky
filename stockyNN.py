@@ -1,44 +1,28 @@
-# NEW TEST WITH REGRESSION
-import csv
 import numpy as np
-from sklearn.svm import SVR
-import matplotlib.pyplot as plt
-import Tkinter
+import tensorflow as tf
 
-dates = []
-prices = []
-plt.switch_backend('TkAgg')
+# Model parameters
+W = tf.Variable([.3], tf.float32)
+b = tf.Variable([-.3], tf.float32)
+# Model input and output
+x = tf.placeholder(tf.float32)
+linear_model = W * x + b
+y = tf.placeholder(tf.float32)
+# loss
+loss = tf.reduce_sum(tf.square(linear_model - y)) # sum of the squares
+# optimizer
+optimizer = tf.train.GradientDescentOptimizer(0.01)
+train = optimizer.minimize(loss)
+# training data
+x_train = [1,2,3,4]
+y_train = [0,-1,-2,-3]
+# training loop
+init = tf.global_variables_initializer()
+sess = tf.Session()
+sess.run(init) # reset values to wrong
+for i in range(1000):
+  sess.run(train, {x:x_train, y:y_train})
 
-def get_data(filename):
-    with open(filename, 'r') as csvfile:
-        csvFileReader = csv.reader(csvfile)
-        next(csvFileReader)
-        for row in csvFileReader:
-            dates.append(int(row[0].split('-')[0]))
-            prices.append(float(row[1]))
-    return
-
-def predict_prices(dates, prices, x):
-    dates = np.reshape(dates,(len(dates), 1))
-
-    svr_lin = SVR(kernel='linear', C=1e3)
-    svr_poly = SVR(kernel='poly',C=1e3,degree =2)
-    svr_rbf = SVR(kernel='rbf',C=1e3,gamma=0.1)
-    svr_lin.fit(dates, prices)
-    svr_poly.fit(dates, prices)
-    svr_rbf.fit(dates, prices)
-
-    plt.scatter(dates, prices, color='black', label='Data')
-    plt.plot(dates, svr_rbf.predict(dates),color='red',label='RBF Model')
-    plt.plot(dates, svr_lin.predict(dates), color='green',label='Linear Model')
-    plt.plot(dates, svr_poly.predict(dates), color='blue', label='Polynomial Model')
-    plt.xlabel('Date')
-    plt.ylabel('Price')
-    plt.title('Support Vector Regression')
-    plt.legend()
-    plt.show()
-
-    return svr_rbf.predict(x)[0], svr_lin.predict(x)[0], svr_poly.predict(x)[0]
-
-get_data('aapl.csv')
-predictedprice = predict_prices(dates, prices, 29)
+# evaluate training accuracy
+curr_W, curr_b, curr_loss  = sess.run([W, b, loss], {x:x_train, y:y_train})
+print("W: %s b: %s loss: %s"%(curr_W, curr_b, curr_loss))

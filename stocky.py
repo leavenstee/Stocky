@@ -41,6 +41,7 @@ def printStocks(d,p,s):
     f.write("\nNEG AVG : " + str(negAvg))
     f.write("\n");
     for x in range(0, len(d)):
+
         money = float(p[x])
         temp = money - float(prev)
         perc = 0
@@ -63,8 +64,8 @@ def printStocks(d,p,s):
             if perc < negAvg:
                 f.write("==== BUY JACKPOT DROP ====")
         f.write("\n");
-    pl.plot(range(0, len(flatPos)),flatPos,'g')
-    pl.plot(range(0, len(flatNeg)),flatNeg,'o')
+    #pl.plot(range(0, len(flatPos)),flatPos,'g')
+    #pl.plot(range(0, len(flatNeg)),flatNeg,'g')
 
 
 

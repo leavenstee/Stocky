@@ -1,6 +1,6 @@
 
 ==========================================
-General Electric Company Common
+General Electric Company
 ==========================================
 
 POS AVG : 3.18571060831
