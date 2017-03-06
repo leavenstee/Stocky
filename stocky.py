@@ -4,12 +4,59 @@ import json
 import time
 import numpy as np
 import pylab as pl
+from keras.layers.core import Dense, Activation, Dropout
+from keras.layers.recurrent import LSTM
+from keras.models import Sequential
+import lstm, time
 
 
 f = open('stockData.txt', 'w')
+f2 = open('stockChange.csv','w')
+f3 = open('aapl.csv', 'w')
+
+
+def predict():
+    #Step 1 Load Data
+    X_train, y_train, X_test, y_test = lstm.load_data('aapl.csv', 50, True)
+
+    #Step 2 Build Model
+    model = Sequential()
+
+    model.add(LSTM(
+        input_dim=1,
+        output_dim=50,
+        return_sequences=True))
+    model.add(Dropout(0.2))
+
+    model.add(LSTM(
+        100,
+        return_sequences=False))
+    model.add(Dropout(0.2))
+
+    model.add(Dense(
+        output_dim=1))
+    model.add(Activation('linear'))
+
+    start = time.time()
+    model.compile(loss='mse', optimizer='rmsprop')
+    print 'compilation time : ', time.time() - start
+
+    #Step 3 Train the model
+    model.fit(
+        X_train,
+        y_train,
+        batch_size=512,
+        nb_epoch=1,
+        validation_split=0.05)
+
+
+    #Step 4 - Plot the predictions!
+    predictions = lstm.predict_sequences_multiple(model, X_test, 50, 50)
+    lstm.plot_results_multiple(predictions, y_test, 50)
 
 def printStocks(d,p,s):
     global f
+    global f2
     shares = 0
     prev = 35 # For CMG!!
     pos = []
@@ -53,6 +100,8 @@ def printStocks(d,p,s):
             neg.append(perc)
         prev = money
         f.write(str(d[x])+ " | " + str(money) + " | " + str(perc))
+        f2.write(str(perc)+"\n")
+
         if perc > posAvgHalf:
             flatPos.append(perc)
             f.write("==== POSSIBLE SELL, GOOD GAIN ====")
@@ -71,6 +120,7 @@ def printStocks(d,p,s):
 
     # Evaluate
 def evalStocks(i):
+    global f3
     dates = []
     values = []
     count = 0
@@ -78,29 +128,32 @@ def evalStocks(i):
     stock = Share(processed_text)
     sName = stock.get_name()
     for value in stock.get_historical('2006-01-01', '2016-12-01'):
-        if count == 7:
+        if count == 1:
             #print value['Date'] + " | " + value['Close'] + " \n"
             dates.insert(0, value['Date'])
             values.insert(0, float(value['Close']))
+            f3.write(str(value['Close'])+"\n")
             count = 0
         count = count + 1
     printStocks(dates,values,sName)
-    pl.show()
+    #pl.show()
 
 def getStocks():
-    text = ['GE']
+    text = ['CMG']
 
     for i in text:
         print "STARTED " + i + " WAITING....."
         evalStocks(i)
         print "COMPLETED " + i + " WAITING....."
         time.sleep(30)
-    print "DONE"
+    print "DONE Predicting now ->->->->->->->->->"
 
 
 if __name__ == "__main__":
     print "Cool"
     getStocks()
+    predict()
+    print "COMPLETED"
 
 # Get Data In Dictonary Print Stuff
 

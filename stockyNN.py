@@ -1,28 +1,43 @@
-import numpy as np
-import tensorflow as tf
 
-# Model parameters
-W = tf.Variable([.3], tf.float32)
-b = tf.Variable([-.3], tf.float32)
-# Model input and output
-x = tf.placeholder(tf.float32)
-linear_model = W * x + b
-y = tf.placeholder(tf.float32)
-# loss
-loss = tf.reduce_sum(tf.square(linear_model - y)) # sum of the squares
-# optimizer
-optimizer = tf.train.GradientDescentOptimizer(0.01)
-train = optimizer.minimize(loss)
-# training data
-x_train = [1,2,3,4]
-y_train = [0,-1,-2,-3]
-# training loop
-init = tf.global_variables_initializer()
-sess = tf.Session()
-sess.run(init) # reset values to wrong
-for i in range(1000):
-  sess.run(train, {x:x_train, y:y_train})
+from keras.layers.core import Dense, Activation, Dropout
+from keras.layers.recurrent import LSTM
+from keras.models import Sequential
+import lstm, time
 
-# evaluate training accuracy
-curr_W, curr_b, curr_loss  = sess.run([W, b, loss], {x:x_train, y:y_train})
-print("W: %s b: %s loss: %s"%(curr_W, curr_b, curr_loss))
+#Step 1 Load Data
+X_train, y_train, X_test, y_test = lstm.load_data('aapl.csv', 50, True)
+
+#Step 2 Build Model
+model = Sequential()
+
+model.add(LSTM(
+    input_dim=1,
+    output_dim=50,
+    return_sequences=True))
+model.add(Dropout(0.2))
+
+model.add(LSTM(
+    100,
+    return_sequences=False))
+model.add(Dropout(0.2))
+
+model.add(Dense(
+    output_dim=1))
+model.add(Activation('linear'))
+
+start = time.time()
+model.compile(loss='mse', optimizer='rmsprop')
+print 'compilation time : ', time.time() - start
+
+#Step 3 Train the model
+model.fit(
+    X_train,
+    y_train,
+    batch_size=512,
+    nb_epoch=1,
+    validation_split=0.05)
+
+
+#Step 4 - Plot the predictions!
+predictions = lstm.predict_sequences_multiple(model, X_test, 50, 50)
+lstm.plot_results_multiple(predictions, y_test, 50)
