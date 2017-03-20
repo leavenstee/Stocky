@@ -1,10 +1,27 @@
+from yahoo_finance import Share
+from pprint import pprint
+import json
+import time
+import numpy as np
+import pylab as pl
 from keras.layers.core import Dense, Activation, Dropout
 from keras.layers.recurrent import LSTM
 from keras.models import Sequential
-import lstm, time #helper libraries
+import lstm, time
+import datetime as dt
+
+# Step 0 Pick Stock and Pull Data
+text = 'cmg'
+processed_text = text.upper()
+stock = Share(processed_text)
+today = dt.datetime.today().strftime("%Y-%m-%d")
+f3 = open('aapl.csv', 'w')
+for value in stock.get_historical('2006-06-12', today):
+        f3.write(str(value['Close'])+"\n")
+
 
 #Step 1 Load Data
-X_train, y_train, X_test, y_test = lstm.load_data('snp.csv', 50, True)
+X_train, y_train, X_test, y_test = lstm.load_data('aapl.csv', 50, True)
 
 #Step 2 Build Model
 model = Sequential()
@@ -37,5 +54,5 @@ model.fit(
     validation_split=0.05)
 
 #Step 4 - Plot the predictions!
-predictions = lstm.predict_sequences_multiple(model, X_test, 50, 40)
+predictions = lstm.predict_sequences_multiple(model, X_test, 50, 30)
 lstm.plot_results_multiple(predictions, y_test, 50)
