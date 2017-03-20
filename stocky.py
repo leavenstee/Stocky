@@ -21,7 +21,7 @@ for value in stock.get_historical('2006-06-12', today):
 
 
 #Step 1 Load Data
-X_train, y_train, X_test, y_test = lstm.load_data('aapl.csv', 50, True)
+X_train, y_train, X_test, y_test = lstm.load_data('aapl.csv', 50, True, today)
 
 #Step 2 Build Model
 model = Sequential()

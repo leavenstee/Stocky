@@ -31,3 +31,8 @@
 - 1.  Recurrent nets can model sequential data because the hidden state is affected by the input and the previous hidden state
 - 2. A solution to the vanishing gradient probelem is to use LSTM cells to remember long-term dependencies
 - 3. We can use LSTM networks to make predictions for time series data easily using Keras and tensorflow
+
+# Sunday March 20
+- Running Prediction on 2016 from data from CMG start
+- create compilation
+- fix data 
