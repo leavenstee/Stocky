@@ -35,4 +35,9 @@
 # Sunday March 20
 - Running Prediction on 2016 from data from CMG start
 - create compilation
-- fix data 
+- fix data adding
+- TODO when the preceeding data looked like this X % chance it will rise
+- TODO Classification probelem Predict of risk
+
+- TODO given output varibles weight of percent it will be in class of CHnage
+-

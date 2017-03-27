@@ -14,7 +14,7 @@ import datetime as dt
 month = 1
 day = 1
 
-# Step 0 Pick Stock and Pull Data
+# Step 0 Pick Stock and Pull Data FIX TODO
 text = 'cmg'
 processed_text = text.upper()
 stock = Share(processed_text)
