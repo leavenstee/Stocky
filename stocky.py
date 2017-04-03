@@ -16,7 +16,7 @@ processed_text = text.upper()
 stock = Share(processed_text)
 today = dt.datetime.today().strftime("%Y-%m-%d")
 f3 = open('aapl.csv', 'w')
-for value in stock.get_historical('2006-06-12', today):
+for value in stock.get_historical('2010-06-12', today):
         f3.write(str(value['Close'])+"\n")
 
 

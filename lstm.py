@@ -114,20 +114,23 @@ def predict_sequences_multiple(model, data, window_size, prediction_len):
             predicted.append(model.predict(curr_frame[newaxis,:,:])[0,0])
             curr_frame = curr_frame[1:]
             curr_frame = np.insert(curr_frame, [window_size-1], predicted[-1], axis=0)
-        renormalize_prediction(predicted)
+        renormalize_prediction(predicted, i)
         prediction_seqs.append(predicted)
     return prediction_seqs
 
-def renormalize_prediction(nums):
+def renormalize_prediction(nums, counter):
     print "new prediction"
     prev = 0
     normal = []
-    for i in nums:
-        c = i*100
-        if (c > prev+1):
-            print "JACKPOT"
-        elif(c < prev-1):
-            print "MAJOR LOSS"
-        else:
-            print "FLAT"
-        prev = c
+    if(counter == 3):
+        for i in nums:
+            c = i
+            n = (c*prev) + 1
+            print i
+            if (c > prev):
+                print "GAIN"
+            elif(c < prev):
+                print "LOSS"
+            else:
+                print "FLAT"
+            prev = c
