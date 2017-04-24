@@ -11,13 +11,25 @@ import lstm, time
 import datetime as dt
 
 # Step 0 Pick Stock and Pull Data
-text = 'cmg'
+rearray = []
+text = 'amzn'
 processed_text = text.upper()
 stock = Share(processed_text)
 today = dt.datetime.today().strftime("%Y-%m-%d")
-f3 = open('aapl.csv', 'w')
-for value in stock.get_historical('2010-06-12', today):
-        f3.write(str(value['Close'])+"\n")
+for value in stock.get_historical('2010-06-12', '2016-12-30'):
+        rearray.insert(0,str(value['Close']))
+count = 0
+f3 = open('aapl1.csv', 'w')
+f4 = open('aapl.csv', 'w')
+for i in rearray:
+    if (count < len(rearray)-365):
+        f3.write(i+"\n")
+    f4.write(i+"\n")
+    count = count + 1
+
+
+
+
 
 
 #Step 1 Load Data
@@ -54,5 +66,5 @@ model.fit(
     validation_split=0.05)
 
 #Step 4 - Plot the predictions!
-predictions = lstm.predict_sequences_multiple(model, X_test, 50, 30)
+predictions = lstm.predict_sequences_multiple(model, X_test, 50, 75)
 lstm.plot_results_multiple(predictions, y_test, 50)

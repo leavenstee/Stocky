@@ -28,6 +28,8 @@ def plot_results_multiple(predicted_data, true_data, prediction_len):
 
     plt.show()
 
+
+
 def load_data(filename, seq_len, normalise_window, day):
 #plt.title(day)
     print day
@@ -119,18 +121,23 @@ def predict_sequences_multiple(model, data, window_size, prediction_len):
     return prediction_seqs
 
 def renormalize_prediction(nums, counter):
-    print "new prediction"
+    #print "new prediction"
+    #print len(nums)
+    pred = 0
     prev = 0
     normal = []
-    if(counter == 3):
+    if(counter == 0):
         for i in nums:
             c = i
             n = (c*prev) + 1
-            print i
+            #print i
             if (c > prev):
-                print "GAIN"
+                pred = pred + 1
             elif(c < prev):
-                print "LOSS"
+                pred = pred - 1
             else:
-                print "FLAT"
+                pred = pred + 0
+
             prev = c
+        f4 = open('pred.csv', 'w')
+        f4.write(str(pred))
