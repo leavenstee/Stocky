@@ -12,7 +12,7 @@ def sim_dice_roll_3_daily():
         assets = 0
         shares = 0
         lastprice = 0
-        filename = 'aapl.csv'
+        filename = 'aapl1.csv'
         with open(filename, 'rb') as f:
             reader = csv.reader(f)
             try:
@@ -45,7 +45,7 @@ def sim_dice_roll_3_daily():
     for i in assetsarr:
         avg = avg + i
         #print i
-    print " AVG 3 ROLL DAILY SIM: " + str(assetsarr[0])
+    print " ASSETS: " + str(assetsarr[0])
 
 
 # Predict on Dice Roll 3 every week
@@ -60,7 +60,7 @@ def sim_dice_roll_3_week():
         shares = 0
         lastprice = 0
         count = 0
-        filename = 'aapl.csv'
+        filename = 'aapl1.csv'
         with open(filename, 'rb') as f:
             reader = csv.reader(f)
             try:
@@ -97,7 +97,7 @@ def sim_dice_roll_3_week():
     for i in assetsarr:
         avg = avg + i
         #print i
-    print " BUY MON SELL THURSDAY RETURN " + str(assetsarr[0])
+    print " ASSETS: " + str(assetsarr[0])
 
 
 # Buy Every Monday Sell Every Thursday
@@ -112,7 +112,7 @@ def sim_buy_monday_sell_thursday():
         shares = 0
         lastprice = 0
         num = 0
-        filename = 'aapl.csv'
+        filename = 'aapl1.csv'
         with open(filename, 'rb') as f:
             reader = csv.reader(f)
             try:
@@ -149,7 +149,7 @@ def sim_buy_monday_sell_thursday():
     for i in assetsarr:
         avg = avg + i
         #print i
-    print " AVG 3 ROLL DAILY SIM: " + str(assetsarr[0])
+    print " ASSETS: " + str(assetsarr[0])
 
 # Predict on Nueral Net
 def sim_neural_net():
@@ -172,7 +172,7 @@ def sim_neural_net():
         lastprice = 0
         num = 0
         first = False
-        filename = 'aapl.csv'
+        filename = 'aapl1.csv'
         with open(filename, 'rb') as f:
             reader = csv.reader(f)
             try:
@@ -200,7 +200,7 @@ def sim_neural_net():
     for i in assetsarr:
         avg = avg + i
         #print i
-    print " AVG 3 ROLL DAILY SIM: " + str(assetsarr[0])
+    print " ASSETS: " + str(assetsarr[0])
 
 
 
