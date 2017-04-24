@@ -1,1 +1,1 @@
-![Stocky Logo](leavenstee.me/images/stocky_banner.png)
+![Stocky Logo](/stocky_banner.png)
