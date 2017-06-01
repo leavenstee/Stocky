@@ -208,11 +208,11 @@ random but in others did not invest as correctly. My goal from this test
 is to not lose money which out of the handful of simulations I ran I
 never lost a cent!
 
-![Apple Inc.](AAPL_PRED "fig:") [fig:subim1]
+![Apple Inc.]
 
-![Amazon.com Inc.](AMZN_PRED "fig:") [fig:subim1]
+![Amazon.com Inc.]
 
-![Chipotle Mexican Grill Inc.](CMG_PRED "fig:") [fig:subim1]
+![Chipotle Mexican Grill Inc.]
 
 Future Application
 ==================
